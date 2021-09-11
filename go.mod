@@ -1,4 +1,4 @@
-module CCSL_go
+module github.com/HaileyStorm/CCSL_go
 
 go 1.16
 
