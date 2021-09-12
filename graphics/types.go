@@ -26,7 +26,9 @@ type Image struct {
 // License(s):
 // https://creativecommons.org/licenses/by-sa/4.0/
 func NewImage(imgr Imager) (*Image, error) {
-	img := &Image{}
+	img := &Image{
+		image: imgr,
+	}
 
 	v := reflect.ValueOf(imgr)
 	if v.Kind() == reflect.Ptr {
