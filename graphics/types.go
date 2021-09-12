@@ -3,13 +3,12 @@ package graphics
 import (
 	"fmt"
 	"image"
-	"image/color"
 	"image/draw"
 	"reflect"
 )
 
 type Image struct {
-	image Imager
+	Imager
 
 	// Pix holds the image's pixels, with the order depending on the underlying image type. The pixel at
 	// (x, y) starts at Pix[(y-Rect.Min.Y)*Stride + (x-Rect.Min.X)*4].
@@ -27,7 +26,7 @@ type Image struct {
 // https://creativecommons.org/licenses/by-sa/4.0/
 func NewImage(imgr Imager) (*Image, error) {
 	img := &Image{
-		image: imgr,
+		Imager: imgr,
 	}
 
 	v := reflect.ValueOf(imgr)
@@ -52,32 +51,12 @@ func NewImage(imgr Imager) (*Image, error) {
 		}
 	}
 
-	return nil, fmt.Errorf("unknown imgr type %T", imgr)
+	return nil, fmt.Errorf("unknown image type %T", imgr)
 }
 
 type Imager interface {
 	draw.Image
 	PixOffset(x, y int) int
-}
-
-func (img *Image) ColorModel() color.Model {
-	return img.image.ColorModel()
-}
-
-func (img *Image) Bounds() image.Rectangle {
-	return img.image.Bounds()
-}
-
-func (img *Image) At(x, y int) color.Color {
-	return img.image.At(x, y)
-}
-
-func (img *Image) PixOffset(x, y int) int {
-	return img.image.PixOffset(x, y)
-}
-
-func (img *Image) Set(x, y int, c color.Color) {
-	img.image.Set(x, y, c)
 }
 
 type SubImager interface {
