@@ -17,6 +17,10 @@ type Image struct {
 	Stride int
 	// Rect is the image's bounds.
 	Rect image.Rectangle
+
+	// Bytes per pixel. Calculated during NewImage, and used to ensure provided pixelBytes parameters in received
+	// methods are <= the number of bytes used for each pixel in the image format.
+	bpp int
 }
 
 // NewImage is a factory method to create an Image from an Imager.
@@ -46,6 +50,7 @@ func NewImage(imgr Imager) (*Image, error) {
 				img.Pix = pix
 				img.Stride = stride
 				img.Rect = rect
+				img.bpp = len(pix) / (rect.Dx() * rect.Dy())
 				return img, nil
 			}
 		}
@@ -54,6 +59,8 @@ func NewImage(imgr Imager) (*Image, error) {
 	return nil, fmt.Errorf("unknown image type %T", imgr)
 }
 
+// You probably don't want to use this. Create a graphics.Image instead using the NewImage factory. This will allow
+// the use of methods such as DrawFilledCircle
 type Imager interface {
 	draw.Image
 	PixOffset(x, y int) int
