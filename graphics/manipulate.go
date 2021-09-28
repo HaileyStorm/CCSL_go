@@ -2,6 +2,7 @@ package graphics
 
 import (
 	"image"
+	"math"
 
 	"github.com/nfnt/resize"
 )
@@ -26,4 +27,21 @@ func ResizeMaintainWithInterp(img image.Image, targetWidth, targetHeight uint, f
 	} else {
 		return resize.Resize(uint(targetWidth), 0, img, function)
 	}
+}
+
+// MultiplyRect resizes (multiplies) r by factor. r.Min will remain the same. The new r.Size() will be r.Size().Mul(factor).
+// If factor is < 0, r is returned unchanged. If factor = 0, the zero rectangle is returned.
+func MultiplyRect(r image.Rectangle, factor float64) image.Rectangle {
+	if factor < 0 || factor == 1 {
+		return r
+	}
+	if factor == 0 {
+		return image.Rectangle{}
+	}
+
+	n := r.Sub(r.Min)
+	n.Max.X = int(math.Round(float64(n.Max.X) * factor))
+	n.Max.Y = int(math.Round(float64(n.Max.Y) * factor))
+
+	return n.Add(r.Min)
 }
