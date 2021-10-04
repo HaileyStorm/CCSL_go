@@ -48,10 +48,10 @@ func DivisorNearLower(x, target, low, high int, searchUp bool) int {
 	}
 
 	if searchUp {
-		if i = divisorNearTargetHigh(x, target, low, high); i != 0 {
+		if i = divisorNearTargetHigh(x, target, high); i != 0 {
 			return i
 		}
-		if i = divisorNearTargetLow(x, target, low, high); i != 0 {
+		if i = divisorNearTargetLow(x, target, low); i != 0 {
 			return i
 		}
 		if i = HighSqrt(); i != 0 {
@@ -61,10 +61,10 @@ func DivisorNearLower(x, target, low, high int, searchUp bool) int {
 			return i
 		}
 	} else {
-		if i = divisorNearTargetLow(x, target, low, high); i != 0 {
+		if i = divisorNearTargetLow(x, target, low); i != 0 {
 			return i
 		}
-		if i = divisorNearTargetHigh(x, target, low, high); i != 0 {
+		if i = divisorNearTargetHigh(x, target, high); i != 0 {
 			return i
 		}
 		if i = Low2(); i != 0 {
@@ -125,10 +125,10 @@ func DivisorNearUpper(x, target, low, high int, searchUp bool) int {
 	}
 
 	if searchUp {
-		if i = divisorNearTargetHigh(x, target, low, high); i != 0 {
+		if i = divisorNearTargetHigh(x, target, high); i != 0 {
 			return i
 		}
-		if i = divisorNearTargetLow(x, target, low, high); i != 0 {
+		if i = divisorNearTargetLow(x, target, low); i != 0 {
 			return i
 		}
 		if i = HighX(); i != 0 {
@@ -138,10 +138,10 @@ func DivisorNearUpper(x, target, low, high int, searchUp bool) int {
 			return i
 		}
 	} else {
-		if i = divisorNearTargetLow(x, target, low, high); i != 0 {
+		if i = divisorNearTargetLow(x, target, low); i != 0 {
 			return i
 		}
-		if i = divisorNearTargetHigh(x, target, low, high); i != 0 {
+		if i = divisorNearTargetHigh(x, target, high); i != 0 {
 			return i
 		}
 		if i = LowSqrt(); i != 0 {
@@ -217,13 +217,13 @@ func divisorNearSearchDown(x, max, min int) int {
 	}
 	return 0
 }
-func divisorNearTargetHigh(x, target, low, high int) int {
+func divisorNearTargetHigh(x, target, high int) int {
 	if target >= high {
 		panic("target must be < high")
 	}
 	return divisorNearSearchUp(x, target+1, high)
 }
-func divisorNearTargetLow(x, target, low, high int) int {
+func divisorNearTargetLow(x, target, low int) int {
 	if target <= low {
 		panic("target must be > low")
 	}
